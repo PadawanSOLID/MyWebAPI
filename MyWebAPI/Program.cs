@@ -23,7 +23,7 @@ namespace MyWebAPI
             {
                 SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()
                 {
-                    DbType = SqlSugar.DbType.SqlServer,
+                    DbType = SqlSugar.DbType.Sqlite,
                     ConnectionString = builder.Configuration["SqlConn"],
                     IsAutoCloseConnection = true,
                 });
