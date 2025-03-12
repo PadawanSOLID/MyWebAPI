@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyModels", "MyModels\MyMode
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{B4EC5634-6A3E-48F5-9B8D-AD0B616A4717}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyJWT", "MyJWT\MyJWT.csproj", "{D213C37B-BA34-4542-BFDB-BDD72D332AFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B4EC5634-6A3E-48F5-9B8D-AD0B616A4717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4EC5634-6A3E-48F5-9B8D-AD0B616A4717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4EC5634-6A3E-48F5-9B8D-AD0B616A4717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D213C37B-BA34-4542-BFDB-BDD72D332AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D213C37B-BA34-4542-BFDB-BDD72D332AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D213C37B-BA34-4542-BFDB-BDD72D332AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D213C37B-BA34-4542-BFDB-BDD72D332AFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

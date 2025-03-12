@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyModels;
 using MyRepositories;
@@ -8,6 +9,7 @@ namespace MyWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BlogNewsController : ControllerBase
     {
         private IBlogNewsRepository _blogNewsRepository;
@@ -20,7 +22,8 @@ namespace MyWebAPI.Controllers
         [HttpGet("BlogNews")]
         public async Task<ActionResult<ApiResult>> GetBlogNews()
         {
-            var data = await _blogNewsRepository.QueryAllAsync();
+            int id = int.Parse(User.FindFirst("Id").Value);
+            var data = await _blogNewsRepository.QueryAsync(n=>n.WriterId==id);
             if (data == null) return Error("None blogs!");
             return Success(data);
         }
@@ -32,7 +35,8 @@ namespace MyWebAPI.Controllers
                 Content = content,
                 Time = DateTime.Now,
                 Title = title,
-                TypeId = typeId
+                TypeId = typeId,
+                WriterId=int.Parse(User.FindFirst("Id").Value)
             };
             var r=await _blogNewsRepository.CreateAsync(blogNews);
             if (r) return Success(blogNews);

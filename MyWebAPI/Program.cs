@@ -1,6 +1,11 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MyRepositories;
 using SqlSugar;
+using System.Text;
+using Utilities;
 
 namespace MyWebAPI
 {
@@ -11,14 +16,35 @@ namespace MyWebAPI
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyWebAPI", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference=new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{ }
+                    }
+                });
+            });
+            builder.Services.AddCustomJwt();
 
-            //builder.Services.AddSqlSugar(new SqlSugar.IOC.IocConfig()
-            //{
-            //    ConnectionString = builder.Configuration["SqlConn"],
-            //    DbType = SqlSugar.IOC.IocDbType.SqlServer,
-            //    IsAutoCloseConnection = true
-            //});
+
             builder.Services.AddSingleton<ISqlSugarClient>(s =>
             {
                 SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()
@@ -30,7 +56,7 @@ namespace MyWebAPI
                 return sqlSugar;
             });
             builder.Services.AddCustomIOC();
-
+            builder.Services.AddAutoMapper(typeof(CustomAutoMapperProfile));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -39,7 +65,7 @@ namespace MyWebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
@@ -48,14 +74,32 @@ namespace MyWebAPI
 
     public static class IOCExtend
     {
-       public static IServiceCollection AddCustomIOC(this IServiceCollection services)
+        public static IServiceCollection AddCustomIOC(this IServiceCollection services)
         {
             services.AddScoped<IBlogNewsRepository, BlogNewsRepository>();
             services.AddScoped<ITypeInfoRepository, TypeInfoRepository>();
             services.AddScoped<IWriterInfoRepository, WriterInfoRepository>();
             return services;
         }
+        public static IServiceCollection AddCustomJwt(this IServiceCollection services)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "http://localhost:5145",
+                        ValidAudience = "http://localhost:5294",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SDMC-CJAS1-SAD-DFSFA-SADHJVF-VF1")),
+                        ClockSkew=TimeSpan.FromHours(1)
+                    };
+                });
+            return services;
+        }
 
-        
     }
-}
+} 
+

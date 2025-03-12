@@ -35,22 +35,27 @@ namespace MyRepositories
             return await base.GetByIdAsync(id);
         }
 
-        public async Task<List<TEntity>> QueryAllAsync()
+        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> func)
+        {
+            return await base.GetSingleAsync(func);
+        }
+
+        public virtual async Task<List<TEntity>> QueryAllAsync()
         {
             return await base.GetListAsync();
         }
 
-        public async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func)
+        public virtual async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func)
         {
             return await base.GetListAsync(func);
         }
 
-        public async Task<List<TEntity>> QueryAsync(int page, int size, RefAsync<int> total)
+        public virtual async Task<List<TEntity>> QueryAsync(int page, int size, RefAsync<int> total)
         {
             return await base.Context.Queryable<TEntity>().ToPageListAsync(page, size, total);
         }
 
-        public async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func, int page, int size, RefAsync<int> total)
+        public virtual async Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func, int page, int size, RefAsync<int> total)
         {
             return await base.Context.Queryable<TEntity>().Where(func).ToPageListAsync(page, size, total);
         }
@@ -62,6 +67,7 @@ namespace MyRepositories
         Task<bool> DeleteAsync(int id);
         Task<bool> EditAsync(TEntity entity);
         Task<TEntity> FindAsync(int id);
+        Task<TEntity> FindAsync(Expression<Func<TEntity,bool>> func);
 
         Task<List<TEntity>> QueryAllAsync();
         Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func);
