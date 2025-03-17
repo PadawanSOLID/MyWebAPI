@@ -35,7 +35,7 @@ namespace MyRepositories
             return await base.GetByIdAsync(id);
         }
 
-        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> func)
+        public  async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> func)
         {
             return await base.GetSingleAsync(func);
         }
@@ -68,7 +68,7 @@ namespace MyRepositories
         Task<bool> EditAsync(TEntity entity);
         Task<TEntity> FindAsync(int id);
         Task<TEntity> FindAsync(Expression<Func<TEntity,bool>> func);
-
+         
         Task<List<TEntity>> QueryAllAsync();
         Task<List<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> func);
 

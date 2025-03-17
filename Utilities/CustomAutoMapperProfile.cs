@@ -14,6 +14,9 @@ namespace Utilities
         public CustomAutoMapperProfile()
         {
             base.CreateMap<WriterInfo,WriterDTO>();
+            base.CreateMap<BlogNews,BlogNewsDTO>()
+                .ForMember(d=>d.TypeName,s=>s.MapFrom(ss=>ss.TypeInfo.Name))
+                .ForMember(d=>d.WriterName,s=>s.MapFrom(ss=>ss.WriterInfo.Name));
         }
     }
 }
