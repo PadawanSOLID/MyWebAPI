@@ -11,7 +11,7 @@ namespace MyWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+  
     public class WriterInfoController : ControllerBase
     {
         private IWriterInfoRepository _writerInfoRepository;
@@ -21,10 +21,11 @@ namespace MyWebAPI.Controllers
             _writerInfoRepository = writerInfoRepository;
         }
         [HttpGet("Writers")]
-        public async Task<ApiResult> GetWriters()
+        public async Task<ApiResult> GetWriters([FromServices]IMapper mapper)
         {
             var writers = await _writerInfoRepository.QueryAllAsync();
-            return Success(writers);
+          var dtos=  mapper.Map<List<WriterInfo>>(writers);  
+            return Success(dtos);
         }
         [HttpPost("Create")]
         public async Task<ApiResult> Create(string name, string userName, string pwd)
@@ -43,7 +44,8 @@ namespace MyWebAPI.Controllers
         }
 
         [HttpPut("Edit")]
-        public async Task<ApiResult> Edit(string name)
+        [Authorize]
+        public async Task<ApiResult> Edit([FromServices] IMapper mapper, string name)
         {
             int id = int.Parse(User.FindFirst("Id").Value);
             var wi = await _writerInfoRepository.FindAsync(id);
@@ -51,15 +53,19 @@ namespace MyWebAPI.Controllers
             wi.Name = name;
             var r = await _writerInfoRepository.EditAsync(wi);
             if (!r) return Error("Edit failed!");
-            return Success(wi);
+            var dto= mapper.Map<WriterInfo>(wi); 
+            return Success(dto);
         }
 
-        [HttpGet("FindWriter")]
+        [HttpGet("Find")]
+        [Authorize]
         public async Task<ApiResult> FindWriter([FromServices]IMapper mapper, int id)
         {
             var writer=await _writerInfoRepository.FindAsync(id);
             var writerDTO = mapper.Map<WriterDTO>(writer);
             return Success(writerDTO);
         }
+
+
     }
 }
