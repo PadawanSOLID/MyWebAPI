@@ -20,6 +20,7 @@ namespace MyJWT.Controllers
         {
             _writerInfoRepository = writerInfoRepository;
         }
+
         [HttpPost("Login")]
         public async Task<ApiResult> Login(string username, string pwd)
         {

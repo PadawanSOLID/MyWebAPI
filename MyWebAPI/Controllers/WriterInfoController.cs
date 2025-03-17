@@ -20,6 +20,7 @@ namespace MyWebAPI.Controllers
         {
             _writerInfoRepository = writerInfoRepository;
         }
+
         [HttpGet("Writers")]
         public async Task<ApiResult> GetWriters([FromServices]IMapper mapper)
         {
@@ -27,6 +28,7 @@ namespace MyWebAPI.Controllers
           var dtos=  mapper.Map<List<WriterInfo>>(writers);  
             return Success(dtos);
         }
+
         [HttpPost("Create")]
         public async Task<ApiResult> Create(string name, string userName, string pwd)
         {
