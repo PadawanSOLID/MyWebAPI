@@ -1,7 +1,9 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MyModels;
 using MyRepositories;
 using SqlSugar;
 using System.Text;
@@ -44,7 +46,12 @@ namespace MyWebAPI
             });
             builder.Services.AddCustomJwt();
 
-
+            builder.Services.AddMemoryCache();
+            builder.Services.AddDistributedMemoryCache();
+            //builder.Services.AddStackExchangeRedisCache(options =>
+            //{
+            //    options.con
+            //});
             builder.Services.AddSingleton<ISqlSugarClient>(s =>
             {
                 SqlSugarScope sqlSugar = new SqlSugarScope(new ConnectionConfig()

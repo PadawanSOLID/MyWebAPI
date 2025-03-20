@@ -11,6 +11,6 @@ namespace Shop.Database
                 
         }
 
-        public DbSet<Product> MyProperty { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

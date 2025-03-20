@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Application", "Shop.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Database", "Shop.Database\Shop.Database.csproj", "{6350BED7-9681-48EB-8097-F227FF6DFFC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocApi", "DocApi\DocApi.csproj", "{D51D7AB5-5BFC-4688-9DD0-E82D4C64BD05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{6350BED7-9681-48EB-8097-F227FF6DFFC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6350BED7-9681-48EB-8097-F227FF6DFFC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6350BED7-9681-48EB-8097-F227FF6DFFC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D51D7AB5-5BFC-4688-9DD0-E82D4C64BD05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D51D7AB5-5BFC-4688-9DD0-E82D4C64BD05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D51D7AB5-5BFC-4688-9DD0-E82D4C64BD05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D51D7AB5-5BFC-4688-9DD0-E82D4C64BD05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

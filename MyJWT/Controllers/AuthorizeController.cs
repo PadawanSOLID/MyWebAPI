@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MyModels;
 using MyRepositories;
@@ -15,10 +16,12 @@ namespace MyJWT.Controllers
     public class AuthorizeController : ControllerBase
     {
         private IWriterInfoRepository _writerInfoRepository;
+        private IOptions<JwtOption> _jwtOption;
 
-        public AuthorizeController(IWriterInfoRepository writerInfoRepository)
+        public AuthorizeController(IWriterInfoRepository writerInfoRepository,IOptions<JwtOption> jwtOption)
         {
             _writerInfoRepository = writerInfoRepository;
+            _jwtOption = jwtOption;
         }
 
         [HttpPost("Login")]
@@ -34,7 +37,7 @@ namespace MyJWT.Controllers
                     new Claim("Id",writer.Id.ToString()),
                     new Claim("UserName",writer.UserName),
                 };
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SDMC-CJAS1-SAD-DFSFA-SADHJVF-VF1"));
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOption.Value.Key));
                 var token = new JwtSecurityToken(
                     "http://localhost:5145",
                     "http://localhost:5294",

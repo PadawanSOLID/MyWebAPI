@@ -1,4 +1,5 @@
 
+using MyModels;
 using MyRepositories;
 using SqlSugar;
 
@@ -27,6 +28,7 @@ namespace MyJWT
                 return sqlSugar;
             });
             builder.Services.AddScoped<IWriterInfoRepository, WriterInfoRepository>();
+            builder.Services.Configure<JwtOption>(builder.Configuration.GetSection(nameof(JwtOption)));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
